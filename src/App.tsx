@@ -1,4 +1,4 @@
-import { useRef, useState, type HTMLAttributes, type RefObject } from 'react'
+import { useState, type HTMLAttributes } from 'react'
 
 interface ModelViewerElement extends HTMLAttributes<HTMLElement> {
     src?: string
@@ -11,7 +11,6 @@ interface ModelViewerElement extends HTMLAttributes<HTMLElement> {
     exposure?: string
     'environment-image'?: string
     loading?: 'auto' | 'lazy' | 'eager'
-    ref?: RefObject<HTMLElement | null> | ((instance: HTMLElement | null) => void)
 }
 
 declare module 'react' {
@@ -34,19 +33,10 @@ export const App = () => {
     const modelPath: string = `${import.meta.env.BASE_URL}ballmodel.glb`
     const [isInteracting, setIsInteracting] = useState(false)
 
-    const modelViewerRef = useRef<any>(null)
-
-    const handleDefaultCamera = () => {
-        if (modelViewerRef.current) {
-            modelViewerRef.current.cameraTarget = 'auto auto auto'
-        }
-    }
-
     return (
         <div className='relative h-dvh w-vw overflow-hidden bg-black select-none'>
 
             <model-viewer
-                ref={modelViewerRef}
                 src={modelPath}
                 alt={'3d model ball'}
                 camera-controls
@@ -57,16 +47,11 @@ export const App = () => {
                 environment-image='legacy'
                 shadow-intensity='0.8'
                 shadow-softness='1'
+                disable-pan
 
-                onMouseDown={() => {
-                    setIsInteracting(true)
-                    handleDefaultCamera()
-                }}
+                onMouseDown={() => setIsInteracting(true)}
                 onMouseUp={() => setIsInteracting(false)}
-                onTouchStart={() => {
-                    setIsInteracting(true)
-                    handleDefaultCamera()
-                }}
+                onTouchStart={() => setIsInteracting(true)}
                 onTouchEnd={() => setIsInteracting(false)}
 
                 style={{
