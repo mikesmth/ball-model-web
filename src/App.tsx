@@ -35,7 +35,7 @@ interface ModelViewerProps {
 }
 
 export const App = () => {
-    const MODEL_PATH: string = './ballmodel.glb'
+    const MODEL_PATH: string = '/ball-model-web/ballmodel.glb'
 
     return (
         <div className='h-screen w-screen overflow-hidden bg-black select-none'>
